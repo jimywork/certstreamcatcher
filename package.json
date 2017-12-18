@@ -1,0 +1,18 @@
+{
+  "name": "certstreamcatcher",
+  "version": "1.0.1",
+  "description": "Catching phishing by observing certificate transparency logs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fabio Castro @6IXN7ine",
+  "license": "ISC",
+  "dependencies": {
+    "certstream": "^1.1.0",
+    "cli-color": "^1.2.0",
+    "lodash": "^4.17.4",
+    "node-status": "^1.0.0",
+    "tldjs": "^2.2.0"
+  }
+}
