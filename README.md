@@ -9,6 +9,8 @@ Catching phishing by observing certificate transparency logs.
 To install certstreamcatcher using `npm` run:
 
     npm install --save certstreamcatcher
+### Try on npm runkit
+	[https://npm.runkit.com/certstreamcatcher](https://npm.runkit.com/certstreamcatcher)
     
 ### Usage
 
