@@ -6,6 +6,7 @@
  * Licensed under the MIT license.
  */
 
+
  'use strict'
 
 const tld = require('tldjs');
@@ -13,12 +14,14 @@ const lodash = require('lodash');
 const color = require('cli-color');
 const status = require('node-status');
 
+const yellowBright = color.yellowBright.underline;
 const yellow = color.yellow.underline;
 const danger = color.redBright.underline;
 const white = color.white.underline;
 const light = color.white.underline;
 
 let certificates = status.addItem('certificates');
+
 
 module.exports = {
 
@@ -48,16 +51,17 @@ module.exports = {
 			return;
 		}
 
-		certificates.inc();
 
 		let domains = certstream.data.leaf_cert.all_domains;
 		let certs = certstream.data.chain;
 
 		lodash.forEach(domains, function(domains, index) {
 
-			if (!lodash.startsWith(domains, '*.')) {
+			
+			if (lodash.startsWith(domains, '*.')) {
 				domains = lodash.replace(domains, '*.', 'www.');
 			}
+
 
 			// Expressões regulares criadas com base no comportamento dos sites de phishing 
 
@@ -73,7 +77,7 @@ module.exports = {
 			if ((lodash.isNull(domain) && lodash.isEmpty(domain))) { return; } // Domains com o subdomain vazio ou null
 
 			subdomain = (subdomain.match(regex) || []);
-			domain = (domain.match(regex) || [])
+			domain = (domain.match(regex) || []);
 
 			// Expressões regulares criadas com base no comportamento dos sites de phishing
 
@@ -110,41 +114,43 @@ module.exports = {
 		  		}
 		  	});
 
+		  
 	  		 // Remove os domains que começa com xn--
 
-	  		 if (lodash.startsWith(domain, 'xn--')) {
+	  		 if (lodash.startsWith(domains, 'xn--', 0)) {
 	  		 	return;
 	  		 }
 
-
 	  		 lodash.forEach(keywords, function(keyword) {
 
-	  		 	if (suspicious) {
-	  		 		if (domain.length > 2 || subdomain.length >= 2) {
-	  		 			if(dashed >= 1 && points >= 1) {
-	  		 				console.log('[!] Suspicious ' + danger(`${domains}`));
-	  		 			}
-	  		 		}
-	  		 	}
+		        if (suspicious) {
 
-	  		 	if (subdomain.length === 1) {
-	  		 		if(dashed >= 1 || points >= 1) {
-	  		 			console.log('[!] Likely ' + yellow(`${domains}`));
-	  		 		}
-	  		 	}
+		        	if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
+		            	console.log('[!] Suspicious ' + danger(`${domains}`));
+		        	}
 
-	  		 	if (domain.length === 1) {
-	  		 		if(dashed >= 1 || points >= 1) {
-	  		 			console.log('[!] Potential ' + white(`${domains}`));
-	  		 		}
-	  		 	}
+			        if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
+			            console.log('[!] Likely ' + yellow(`${domains}`));
+			        }
+
+		        } else {
+
+		        	if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
+		            	console.log('[!] Likely ' + yellow(`${domains}`));
+		        	}
+
+			        if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
+			            console.log('[!] Potential ' + white(`${domains}`));
+			        }
+		        }
+	
 	  	 });
+	  	
 	  });
+		certificates.inc();
  	}
 }
 
 status.start({
-  invert: false,
-  interval: 150,
-	pattern: '{spinner.cyan} {certificates} Certs {spinner.toggle}  Elapsed time {uptime}'
+  pattern: '{spinner.cyan} {certificates} Certs {spinner.toggle}  Elapsed time {uptime}'
 });
