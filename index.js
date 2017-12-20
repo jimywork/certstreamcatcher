@@ -46,7 +46,8 @@ module.exports = {
 			}
 		}
 
-		// Retorna vazio se não retornar uma messagem de atualização		
+		// Retorna vazio se não retornar uma messagem de atualização
+
 		if (!lodash.includes(certstream, 'certificate_update')) {
 			return;
 		}
@@ -59,22 +60,29 @@ module.exports = {
 
 			
 			if (lodash.startsWith(domains, '*.')) {
-				domains = lodash.replace(domains, '*.', 'www.');
+				domains = lodash.replace(domains, '*.', 'www.', 0);
 			}
+
+			// if (!lodash.startsWith(domains, 'www.') && !lodash.startsWith(domains, '')) {
+			// 	domains = lodash.replace(domains, '', 'www.', 0);
+			// }
+
 
 
 			// Expressões regulares criadas com base no comportamento dos sites de phishing 
 
-			const keywords = (domains.match(regex) || []); // Keywords
+			const keywords = (domains.match(regex) || []); // Keywords do dominio inteiro
 
-			// Fitler Domain
+			// Filtra o dominio
 			let domain = tld.parse(domains).domain;
 
-			// Filter Subdomain
+			// Filter subdominio
 			let subdomain = tld.parse(domains).subdomain;
+			let tlddomain = tld.parse(domains).publicSuffix;
 
-			if ((lodash.isNull(subdomain) && lodash.isEmpty(subdomain))) { return; } // Domains com o subdomain vazio ou null
-			if ((lodash.isNull(domain) && lodash.isEmpty(domain))) { return; } // Domains com o subdomain vazio ou null
+
+			if ((lodash.isNull(subdomain) && lodash.isEmpty(subdomain))) { return; } // Dominios com o subdomain vazio ou null
+			if ((lodash.isNull(domain) && lodash.isEmpty(domain))) { return; } // Dominios com o subdomain vazio ou null
 
 			subdomain = (subdomain.match(regex) || []);
 			domain = (domain.match(regex) || []);
@@ -85,18 +93,7 @@ module.exports = {
 
 			const points = (domains.match(/(\.)/g) || []).length;
 
-			if (settings.tlds) {
-
-		  	  // Retorn apenas os tlds passados como parametro
-
-		  	  lodash.forEach(tlds, function(tld) {
-		  	  	if (!lodash.endsWith(domains, tld)) {
-		  	  		return;
-		  	  	}
-		  	  });
-
-		  	}
-
+	
 		  	// Certificados gratuitos são mais propensos a serem utilizados para phising
 
 		  	let suspicious = false;
@@ -121,30 +118,68 @@ module.exports = {
 	  		 	return;
 	  		 }
 
-	  		 lodash.forEach(keywords, function(keyword) {
 
-		        if (suspicious) {
+			if (settings.tlds) {
 
-		        	if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-		            	console.log('[!] Suspicious ' + danger(`${domains}`));
-		        	}
+		  	  // Retorn apenas os tlds passados como parametro
 
-			        if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-			            console.log('[!] Likely ' + yellow(`${domains}`));
-			        }
+		  	  lodash.forEach(tlds, function(tld) {
+		  	  	if (lodash.includes(tlddomain, tld)) {
 
-		        } else {
+		  	  		lodash.forEach(keywords, function(keyword) {
 
-		        	if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-		            	console.log('[!] Likely ' + yellow(`${domains}`));
-		        	}
+		  	  			if (suspicious) {
 
-			        if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-			            console.log('[!] Potential ' + white(`${domains}`));
-			        }
-		        }
+		  	  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
+		  	  					console.log('[!] Suspicious ' + danger(`${domains}`));
+		  	  				}
+
+		  	  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
+		  	  					console.log('[!] Likely ' + yellow(`${domains}`));
+		  	  				}
+
+		  	  			} else {
+
+		  	  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
+		  	  					console.log('[!] Likely ' + yellow(`${domains}`));
+		  	  				}
+
+		  	  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
+		  	  					console.log('[!] Potential ' + white(`${domains}`));
+		  	  				}
+		  	  			}
+
+		  	  		});
+		  	  	}
+		  	  });
+
+		  	} else {
+
+		  	lodash.forEach(keywords, function(keyword) {
+
+		  		if (suspicious) {
+
+		  			if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
+		  				console.log('[!] Suspicious ' + danger(`${domains}`));
+		  			}
+
+		  			if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
+		  				console.log('[!] Likely ' + yellow(`${domains}`));
+		  			}
+
+		  		} else {
+
+		  			if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
+		  				console.log('[!] Likely ' + yellow(`${domains}`));
+		  			}
+
+		  			if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
+		  				console.log('[!] Potential ' + white(`${domains}`));
+		  			}
+		  		}
 	
-	  	 });
+	  	 		});
+		  	}
 	  	
 	  });
 		certificates.inc();
