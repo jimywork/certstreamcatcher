@@ -1,14 +1,24 @@
 # Certstreamcatcher
-Catching phishing by observing certificate transparency logs.
+Catching phishing by observing [certificate transparency logs](https://www.certificate-transparency.org/known-logs). This tool is based on regex with effective standards for detecting phishing sites in real time using [certstream](https://github.com/CaliDog/certstream-js).
 
 
 [![asciicast](https://pbs.twimg.com/media/DQ4lO1XXkAEFAfU.jpg:large)](https://twitter.com/6IX7ine/status/943229448614182912)
+
+
+### Installation
+
+```
+$ cd /opt/
+$ git clone https://github.com/6IX7ine/certstreamcatcher.git
+$ cd certstreamcatcher
+$ npm install
+```
 
 ### npm package
 
 To install certstreamcatcher using `npm` run:
 
-    npm install --save certstreamcatcher
+  	npm install --save certstreamcatcher
        
 ### Try on npm runkit
 
@@ -17,6 +27,7 @@ This is a playground to test certstreamcatcher
 [https://npm.runkit.com/certstreamcatcher](https://npm.runkit.com/certstreamcatcher)
     
 ### Usage
+The certstreamcatcher is extremely simple, all you have to do is to import the library **certstreamcatcher** and certstream register the callback and call **certstreamClientPhishing** and pass the callback parameter to certstreamClientPhishing.
 
 ```
 const certstreamcatcher = require('certstreamcatcher'); 
@@ -31,6 +42,10 @@ var client = new certstream(function(certstream) {
 });
 
 client.connect();
+```
+To execute the program save the above code and execute with the command:
+```
+$ node certstreamcatcher.js
 ```
 
 ## Donations
