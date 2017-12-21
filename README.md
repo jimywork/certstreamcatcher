@@ -2,7 +2,7 @@
 Catching phishing by observing [certificate transparency logs](https://www.certificate-transparency.org/known-logs). This tool is based on regex with effective standards for detecting phishing sites in real time using [certstream](https://github.com/CaliDog/certstream-js).
 
 
-[![asciicast](https://pbs.twimg.com/media/DQ4lO1XXkAEFAfU.jpg:large)](https://twitter.com/6IX7ine/status/943229448614182912)
+[![Demo](https://github.com/6IX7ine/certstreamcatcher/blob/master/demo.gif?raw=true)](https://twitter.com/6IX7ine)
 
 
 ### Installation
@@ -47,6 +47,15 @@ To execute the program save the above code and execute with the command:
 ```
 $ node certstreamcatcher.js
 ```
+
+### Phishing 
+
+[![Phishing](https://pbs.twimg.com/media/DQxrV45UIAEG__2.jpg)](https://twitter.com/6IX7ine/status/943229448614182912)
+<hr>
+
+[![Phishing](https://pbs.twimg.com/media/DQm6oTgXcAEQIq_.jpg)](https://twitter.com/6IX7ine/status/943229448614182912)
+
+
 
 ## Donations
 * XMR: `49m12JEEC6HPCHkLMX5QL4SrDQdKwh6eb4Muu8Z9CwA9MwemhzFQ3VcgHwyuR73rC22WCymTUyep7DVrfN3GPt5JBCekPrR`
