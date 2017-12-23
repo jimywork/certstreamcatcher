@@ -1,6 +1,6 @@
 {
   "name": "certstreamcatcher",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Catching phishing by observing certificate transparency logs.",
   "main": "index.js",
   "scripts": {
@@ -14,5 +14,20 @@
     "lodash": "^4.17.4",
     "node-status": "^1.0.0",
     "tldjs": "^2.2.0"
-  }
+  },
+  "directories": {
+    "example": "example"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/6IX7ine/certstreamcatcher.git"
+  },
+  "keywords": [
+    "certstream"
+  ],
+  "bugs": {
+    "url": "https://github.com/6IX7ine/certstreamcatcher/issues"
+  },
+  "homepage": "https://github.com/6IX7ine/certstreamcatcher#readme"
 }

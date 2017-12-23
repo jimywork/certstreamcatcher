@@ -21,6 +21,7 @@ const white = color.white.underline;
 const light = color.white.underline;
 
 let certificates = status.addItem('certificates');
+let phishing = status.addItem('phishing');
 
 
 module.exports = {
@@ -58,17 +59,18 @@ module.exports = {
 
 		lodash.forEach(domains, function(domains, index) {
 
-			
+
 			if (lodash.startsWith(domains, '*.')) {
 				domains = lodash.replace(domains, '*.', 'www.', 0);
 			}
 
-			// if (!lodash.startsWith(domains, 'www.') && !lodash.startsWith(domains, '')) {
-			// 	domains = lodash.replace(domains, '', 'www.', 0);
-			// }
+	  		 // Remove os domains que começa com xn--
 
+	  		 if (lodash.startsWith(domains, 'xn--', 0)) {
+	  		 	return;
+	  		 }
 
-
+			
 			// Expressões regulares criadas com base no comportamento dos sites de phishing 
 
 			const keywords = (domains.match(regex) || []); // Keywords do dominio inteiro
@@ -82,19 +84,17 @@ module.exports = {
 
 
 			if ((lodash.isNull(subdomain) && lodash.isEmpty(subdomain))) { return; } // Dominios com o subdomain vazio ou null
-			if ((lodash.isNull(domain) && lodash.isEmpty(domain))) { return; } // Dominios com o subdomain vazio ou null
+			if ((lodash.isNull(domain) && lodash.isEmpty(domain))) { return; } 
 
-			subdomain = (subdomain.match(regex) || []);
-			domain = (domain.match(regex) || []);
-
-			// Expressões regulares criadas com base no comportamento dos sites de phishing
+			subdomain = (subdomain.match(regex) || []); // Subdomain Keywords
+			domain = (domain.match(regex) || []); // Domain Keywords
 
 			const dashed = (domains.match(/\-/g) || []).length;
 
 			const points = (domains.match(/(\.)/g) || []).length;
 
 	
-		  	// Certificados gratuitos são mais propensos a serem utilizados para phising
+		  	// Certificados gratuitos são mais propensos a serem utilizados para phishing
 
 		  	let suspicious = false;
 
@@ -111,14 +111,7 @@ module.exports = {
 		  		}
 		  	});
 
-		  
-	  		 // Remove os domains que começa com xn--
-
-	  		 if (lodash.startsWith(domains, 'xn--', 0)) {
-	  		 	return;
-	  		 }
-
-
+		  		
 			if (settings.tlds) {
 
 		  	  // Retorn apenas os tlds passados como parametro
@@ -130,24 +123,31 @@ module.exports = {
 
 		  	  			if (suspicious) {
 
-		  	  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-		  	  					console.log('[!] Suspicious ' + danger(`${domains}`));
-		  	  				}
+				  			if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
+		  				
+		  						console.log(`[!] Suspicious ${danger(`${domains}`)}`);
 
-		  	  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-		  	  					console.log('[!] Likely ' + yellow(`${domains}`));
-		  	  				}
+			  				}
 
-		  	  			} else {
+				  			if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
 
-		  	  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-		  	  					console.log('[!] Likely ' + yellow(`${domains}`));
-		  	  				}
+				  				console.log(`[!] Likely ${yellow(`${domains}`)}`);
+				  			}
 
-		  	  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-		  	  					console.log('[!] Potential ' + white(`${domains}`));
-		  	  				}
-		  	  			}
+
+				  		} else {
+
+				  			if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
+
+		  						console.log(`[!] Likely ${yellow(`${domains}`)}`);
+		  					}
+
+				  			if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
+
+				  				console.log(`[!] Potential ${white(`${domains}`)}`);
+
+				  			}
+				  		}
 
 		  	  		});
 		  	  	}
@@ -160,21 +160,27 @@ module.exports = {
 		  		if (suspicious) {
 
 		  			if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-		  				console.log('[!] Suspicious ' + danger(`${domains}`));
+		  				
+		  				console.log(`[!] Suspicious ${danger(`${domains}`)}`);
+
 		  			}
 
 		  			if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-		  				console.log('[!] Likely ' + yellow(`${domains}`));
+
+		  				console.log(`[!] Likely ${yellow(`${domains}`)}`);
 		  			}
 
 		  		} else {
 
 		  			if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-		  				console.log('[!] Likely ' + yellow(`${domains}`));
+
+		  				console.log(`[!] Likely ${yellow(`${domains}`)}`);
 		  			}
 
 		  			if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-		  				console.log('[!] Potential ' + white(`${domains}`));
+
+		  				console.log(`[!] Potential ${white(`${domains}`)}`);
+
 		  			}
 		  		}
 	
@@ -182,10 +188,11 @@ module.exports = {
 		  	}
 	  	
 	  });
+
 		certificates.inc();
  	}
 }
 
 status.start({
-  pattern: '{spinner.cyan} {certificates} Certs {spinner.toggle}  Elapsed time {uptime}'
+  pattern: '{spinner.cyan} {certificates} Certs {spinner.toggle} Elapsed time {uptime}'
 });
