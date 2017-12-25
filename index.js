@@ -21,8 +21,6 @@ const white = color.white.underline;
 const light = color.white.underline;
 
 let certificates = status.addItem('certificates');
-let phishing = status.addItem('phishing');
-
 
 module.exports = {
 
@@ -117,7 +115,7 @@ module.exports = {
 		  	  // Retorn apenas os tlds passados como parametro
 
 		  	  lodash.forEach(tlds, function(tld) {
-		  	  	if (lodash.includes(tlddomain, tld)) {
+		  	  	if (lodash.includes(tld, tlddomain)) {
 
 		  	  		lodash.forEach(keywords, function(keyword) {
 
