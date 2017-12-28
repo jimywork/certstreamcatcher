@@ -1,5 +1,6 @@
 # Certstreamcatcher
-Catching phishing by observing [certificate transparency logs](https://www.certificate-transparency.org/known-logs). This tool is based on regex with effective standards for detecting phishing sites in real time using [certstream](https://github.com/CaliDog/certstream-js).
+Catching phishing by observing [certificate transparency logs](https://www.certificate-transparency.org/known-logs). This tool is based on regex with effective standards for detecting phishing sites in real time using [certstream](https://github.com/CaliDog/certstream-js) and can also detect [punycode (IDNA)](https://en.wikipedia.org/wiki/Punycode) attacks such as https://www.ṁyetḣerwallet.com.
+
 
 
 [![Demo](https://github.com/6IX7ine/certstreamcatcher/blob/master/demo.gif?raw=true)](https://twitter.com/6IX7ine)
