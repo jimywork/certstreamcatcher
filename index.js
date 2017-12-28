@@ -13,6 +13,7 @@ const tld = require('tldjs');
 const lodash = require('lodash');
 const color = require('cli-color');
 const status = require('node-status');
+const punycode = require('punycode');
 
 const yellowBright = color.yellowBright.underline;
 const yellow = color.yellow.underline;
@@ -21,6 +22,9 @@ const white = color.white.underline;
 const light = color.white.underline;
 
 let certificates = status.addItem('certificates');
+
+
+const maps = {"ṃ":"m","ł":"l","m":"m","š": "s", "ɡ":"g", "ũ":"u","e":"e","í":"i","ċ": "c","ố":"o","ế": "e", "ệ":"e","ø":"o", "ę": "e", "ö": "o", "ё": "e", "ń": "n", "ṁ": "m","ó": "o", "é": "e", "đ": "d", "ė": "e", "á": "a", "ć": "c", "ŕ": "r", "ẹ": "e", "ọ": "o", "þ": "p", "ñ": "n", "õ": "o", "ĺ": "l", "ü": "u", "â": "a", "ı": "i", "ᴡ":"w", "α":"a","ρ":"p","ε":"e","ι":"l", "å":"a", "п":"n","ъ":"b","ä":"a", "ç":"c","ê":"e", "ë":"e", "ï": "i", "î":"i","ậ":"a","ḥ":"h","ý":"y", "ṫ":"t", "ẇ": "w", "ḣ": "h", "ã": "a", "ì": "i"}
 
 module.exports = {
 
@@ -55,25 +59,18 @@ module.exports = {
 		let domains = certstream.data.leaf_cert.all_domains;
 		let certs = certstream.data.chain;
 
-		lodash.forEach(domains, function(domains, index) {
+		lodash.forEach(domains, function(domains) {
 
 
 			if (lodash.startsWith(domains, '*.')) {
 				domains = lodash.replace(domains, '*.', 'www.', 0);
 			}
 
-	  		 // Remove os domains que começa com xn--
-
-	  		 if (lodash.startsWith(domains, 'xn--', 0)) {
-	  		 	return;
-	  		 }
-
-			
 			// Expressões regulares criadas com base no comportamento dos sites de phishing 
 
 			const keywords = (domains.match(regex) || []); // Keywords do dominio inteiro
 
-			// Filtra o dominio
+			// Filter o dominio
 			let domain = tld.parse(domains).domain;
 
 			// Filter subdominio
@@ -108,6 +105,37 @@ module.exports = {
 		  			});
 		  		}
 		  	});
+
+	  	 // Punycodes
+
+  		 if (lodash.startsWith(domains, 'xn--', 0)) {
+
+	  		 	domains = punycode.toUnicode(domains);
+
+	  		 	let punycodes = punycode.ucs2.decode(domains);
+
+			    lodash.forEach(punycodes, function(decimal) {
+
+			        if(decimal >= 128) { 
+
+			          	let toCharCode = String.fromCharCode(decimal);
+
+		                for(var codes in maps) {
+		                    domains = domains.replace(codes, maps[codes]);
+		                }
+			        }
+			        
+			    });
+
+			    if (keywords.length >= 1) {
+			    	console.log(`[!] Punycode ${danger(`${domains} ${keywords}`)}`);
+			    }
+
+		    	// console.log(`${domains}`); 
+
+		    	return;
+  		 }
+
 
 		  		
 			if (settings.tlds) {
