@@ -34,7 +34,7 @@ The certstreamcatcher is extremely simple, all you have to do is to import the l
 const certstreamcatcher = require('certstreamcatcher'); 
 const certstream = require("certstream");
 
-const regex = /(wellsfargo|paypal|login|sign-in|secure|update|money|sslsecure||amazon|)/gi; # Keywords
+const regex = /(wellsfargo|paypal|login|sign-in|secure|update|money|sslsecure|amazon|)/gi; # Keywords
 
 const tlds = ['.io','.gq','.ml','.cf','.tk','.xyz','.pw','.cc']; # tlds 
 
