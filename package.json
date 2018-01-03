@@ -1,6 +1,6 @@
 {
   "name": "certstreamcatcher",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Catching phishing by observing certificate transparency logs.",
   "main": "index.js",
   "scripts": {

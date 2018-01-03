@@ -6,7 +6,6 @@
  * Licensed under the MIT license.
  */
 
-
  'use strict'
 
  const tld = require('tldjs');
@@ -15,205 +14,13 @@
  const status = require('node-status');
  const punycode = require('punycode');
 
- const yellowBright = color.yellowBright.underline;
  const yellow = color.yellow.underline;
  const danger = color.redBright.underline;
  const white = color.white.underline;
- const light = color.white.underline;
 
- let certificates = status.addItem('certificates');
+ const certificates = status.addItem('certificates');
 
- const maps = {
-
- 	"Ѐ": "e",
- 	"Ѕ": "s",
- 	"Ї": "i",
- 	"ą": "a",
- 	"č": "c",
- 	"ď": "d",
- 	"ē": "e",
- 	"ė": "e",
- 	"ě": "e",
- 	"ĝ": "g",
- 	"ĥ": "h",
- 	"ħ": "h",
- 	"ĩ": "i",
- 	"ī": "i",
- 	"ĭ": "i",
- 	"į": "i",
- 	"ĵ": "j",
- 	"ķ": "k",
- 	"ĸ": "k",
- 	"ĺ": "l",
- 	"ļ": "l",
- 	"ņ": "n",
- 	"ň": "n",
- 	"ŉ": "n",
- 	"ŋ": "n",
- 	"ō": "o",
- 	"ŏ": "o",
- 	"œ": "ae",
- 	"ŗ": "r",
- 	"ř": "r",
- 	"ś": "s",
- 	"ŝ": "s",
- 	"ş": "s",
- 	"ţ": "t",
- 	"ť": "t",
- 	"ŧ": "t",
- 	"ų": "u",
- 	"ŵ": "w",
- 	"ŷ": "y",
- 	"ź": "z",
- 	"ſ": "f",
- 	"ƀ": "b",
- 	"Ɓ": "b",
- 	"ƈ": "c",
- 	"Ƙ": "k",
- 	"Ɯ": "w",
- 	"ƞ": "n",
- 	"Ɵ": "e",
- 	"Ơ": "o",
- 	"ƥ": "p",
- 	"Ʀ": "r",
- 	"ƫ": "t",
- 	"ư": "u",
- 	"ƴ": "y",
- 	"ƿ": "p",
- 	"ǖ": "u",
- 	"ǘ": "u",
- 	"ǥ": "g",
- 	"ǧ": "g",
- 	"ǩ": "ǩ",
- 	"ȁ": "a",
- 	"ȃ": "a",
- 	"ȅ": "e",
- 	"ȇ": "e",
- 	"ȉ": "i",
- 	"ȍ": "o",
- 	"ȏ": "o",
- 	"ȑ": "r",
- 	"ȓ": "r",
- 	"ȕ": "u",
- 	"ȗ": "u",
- 	"ș": "s",
- 	"ȟ": "h",
- 	"ȡ": "d",
- 	"ɋ": "a",
- 	"ɍ": "r",
- 	"ɑ": "a",
- 	"ɗ": "d",
- 	"Ε": "e",
- 	"Α": "a",
- 	"Β": "b",
- 	"Γ": "r",
- 	"Η": "h",
- 	"Ζ": "z",
- 	"Ι": "i",
- 	"Κ": "k",
- 	"Μ": "m",
- 	"Ν": "n",
- 	"Ρ": "p",
- 	"Τ": "t",
- 	"ά": "a",
- 	"ή": "n",
- 	"α": "a",
- 	"β": "b",
- 	"ο": "o",
- 	"ρ": "p",
- 	"ς": "c",
- 	"χ": "x",
- 	"ϲ": "c",
- 	"ϳ": "j",
- 	"ϸ": "p",
- 	"ϻ": "m",
- 	"à": "a",
- 	"ạ": "a",
- 	"ṣ": "s",
- 	"ḳ": "k",
- 	"ľ": "l",
- 	"ā": "a",
- 	"è": "e",
- 	"ú": "u",
- 	"ğ": "g",
- 	"ű": "u",
- 	"ő": "o",
- 	"ḅ": "b",
- 	"ẹ": "e",
- 	"ṃ": "m",
- 	"ł": "l",
- 	"m": "m",
- 	"š": "s",
- 	"ɡ": "g",
- 	"ũ": "u",
- 	"e": "e",
- 	"í": "i",
- 	"ċ": "c",
- 	"ố": "o",
- 	"ế": "e",
- 	"ệ": "e",
- 	"ø": "o",
- 	"ę": "e",
- 	"ö": "o",
- 	"ё": "e",
- 	"ń": "n",
- 	"ṁ": "m",
- 	"ó": "o",
- 	"é": "e",
- 	"đ": "d",
- 	"á": "a",
- 	"ć": "c",
- 	"ŕ": "r",
- 	"ọ": "o",
- 	"þ": "p",
- 	"ñ": "n",
- 	"õ": "o",
- 	"ü": "u",
- 	"â": "a",
- 	"ı": "i",
- 	"ᴡ": "w",
- 	"ε": "e",
- 	"ι": "l",
- 	"å": "a",
- 	"п": "n",
- 	"ъ": "b",
- 	"ä": "a",
- 	"ç": "c",
- 	"ê": "e",
- 	"ë": "e",
- 	"ï": "i",
- 	"î": "i",
- 	"ậ": "a",
- 	"ḥ": "h",
- 	"ý": "y",
- 	"ṫ": "t",
- 	"ẇ": "w",
- 	"ḣ": "h",
- 	"ã": "a",
- 	"ì": "i",
- 	'ả':"a",
- 	"ṇ": "n",
- 	"в":"b",
- 	"т":"t",
- 	"ẩ":"a",
- 	"ộ": "o",
- 	"ă":"a",
- 	"ể":"e",
- 	"ơ":"o",
- 	"μ":"u",
- 	"ð": "o",
- 	"н":"h",
- 	"ш":"w",
- 	"ґ":"r",
- 	"ỏ":"o",
- 	"г": "r",
- 	"к": "k"
- }
-
-
- status.start({
- 	pattern: '{spinner.cyan} {certificates} Certs {spinner.toggle}  Elapsed time {uptime}'
- });
+ const mapping = { "a": ["à","á","â","ã","ä","å","ā","ă","ą","ǎ","ȁ","ȃ","ȧ","ḁ","ẚ","ạ"], "b": ["ḃ","ḅ","ḇ","ƀ"],"c": ["ç","ć", "ĉ", "ċ","č"],"d": ["ḋ", "ḍ", "ḏ", "ḑ", "ḓ", "đ"],"e": ["è","é","ê","ë","ĕ","ė","ę","ě","ȅ","ȇ","ȩ","ḙ","ḛ","ẹ","ẽ"],"f": ["ḟ"],"g": ["ĝ","ğ","ġ","ģ","ǧ","ǵ","ḡ"],"h": ["ĥ","ȟ","ḣ","ḥ","ḧ","ḩ","ḫ","ẖ"],"i": ["ì", "í", "î", "ï", "ĩ", "ī", "ĭ", "į", "ǐ", "ȉ", "ȋ", "ḭ", "ị"],"j": ["ĵ", "ǰ"],"k": ["ķ","ǩ","ḱ","ḳ","ḵ"],"l": ["ĺ", "ļ", "ľ", "ŀ", "ḷ", "ḻ", "ḽ", "ι", "ł"], "m": ["ḿ","ṁ","ṃ", "ϻ"], "n": ["ñ", "ń", "ņ", "ň", "ŉ", "ǹ", "ṅ", "ṇ", "ṉ", "ṋ"], "o": ["ò","ó","ô","õ","ö","ō","ŏ","ő","ơ","ǒ","ǫ","ố","ȍ","ȏ","ȯ","ọ","ø","ộ"], "p": ["ṕ","ṗ","ϸ"], "r": ["ŕ","ŗ","ř","ȑ","ȓ","ṙ","ṛ","ṟ", "ґ"], "s": ["ŝ", "ş", "š", "ș", "ṡ", "ṣ"], "t": ["ţ", "ť", "ț", "ṫ", "ṭ", "ṯ", "ṱ", "ẗ"], "u": ["ù", "ú", "û", "ü", "ũ", "ū", "ŭ", "ů", "ű", "ų", "ư", "ǔ", "ȕ", "ȗ", "ṳ", "ṵ", "ṷ", "ụ"], "v": ["ṽ","ṿ"], "w": ["ŵ", "ẁ", "ẃ", "ẅ", "ẇ", "ẉ", "ẘ"], "x": ["ẋ", "ẍ"], "y": ["ý", "ÿ", "ŷ", "ȳ", "ẏ", "ẙ", "ỳ", "ỵ", "ỹ"], "z": ["ź", "ż", "ž", "ẑ", "ẓ", "ẕ"]}
 
  module.exports = {
 
@@ -252,12 +59,12 @@
 
 
 			if (lodash.startsWith(domains, '*.')) {
-				domains = lodash.replace(domains, '*.', 'www.', 0);
+				domains = lodash.replace(domains, '*.', '', 0);
 			}
 
 			// Expressões regulares criadas com base no comportamento dos sites de phishing 
 
-			const keywords = (domains.match(regex) || []); // Keywords do dominio inteiro
+			let keywords = (domains.match(regex) || []); // Keywords do dominio inteiro
 
 			// Filter o dominio
 			let domain = tld.parse(domains).domain;
@@ -285,9 +92,10 @@
 		  	lodash.forEach(certs, function(cert) {
 		  		if (lodash.hasIn(cert,"subject")) {
 		  			lodash.forOwn(cert, function(keyword) {
-		  				if (lodash.includes(cert.subject.aggregated, "Let's Encrypt") || lodash.includes(cert.subject.aggregated, "CACert free certificate")
-		  					|| lodash.includes(cert.subject.aggregated, "StartSSL"|| lodash.includes(cert.subject.aggregated, "Cloudflare")
-		  						|| lodash.includes(cert.subject.aggregated, "Free SSL"))) 
+		  				if (lodash.includes(cert.subject.aggregated, "Let's Encrypt") || lodash.includes(cert.subject.aggregated, "CACert free certificate") 
+		  																			  || lodash.includes(cert.subject.aggregated, "StartSSL"
+																  					  || lodash.includes(cert.subject.aggregated, "Cloudflare") 
+																  					  || lodash.includes(cert.subject.aggregated, "Free SSL")))
 		  				{
 		  					suspicious = true;
 		  				} 
@@ -295,36 +103,30 @@
 		  		}
 		  	});
 
-	  	 // Punycodes
 
 	  	 if (lodash.startsWith(domains, 'xn--', 0)) {
 
+	  	 	let punyncode = punycode.toUnicode(domains); 
+	  	 	let punydecode = punycode.ucs2.decode(punyncode); 
 
+	  	 	lodash.forEach(punydecode, function(punycode) {
 
-	  	 	domains = punycode.toUnicode(domains);
+	  	 		if (punycode >= 128) {
+	 			    for(var keyword in mapping) {
 
-	  	 	var unpunycode = domains;
+				        var maps = mapping[keyword];
 
-	  	 	let punycodes = punycode.ucs2.decode(domains);
-
-	  	 	lodash.forEach(punycodes, function(decimal) {
-
-	  	 		if(decimal >= 128) { 
-
-	  	 			let toCharCode = String.fromCharCode(decimal);
-
-	  	 			for(var codes in maps) {
-	  	 				domains = domains.replace(codes, maps[codes]);
-	  	 			}
+				        for(var keywords in maps ) {
+         					punyncode = punyncode.replace(maps[keywords], keyword);
+        				}
+			      	}
 	  	 		}
-
 	  	 	});
 
-	  	 	var punycodekeywords = (domains.match(regex) || []);
+	  	 	keywords = (punyncode.match(regex) || []).length;
 
-
-	  	 	if (punycodekeywords.length >= 1) {
-	  	 		console.log(`[!] Punycode ${danger(`${unpunycode}`)}`);
+	  	 	if (keywords >= 1) {
+	  	 		console.log(`[!] Punycode ${danger(`${domains}`)}`);
 	  	 	}
 
 	  	 	return;
@@ -344,18 +146,13 @@
 		  	  			if (suspicious) {
 
 		  	  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-
 		  	  					console.log(`[!] Suspicious ${danger(`${domains}`)}`);
-
 		  	  					return;
 
 		  	  				}
 
 		  	  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-
-		  	  					console.log(`[!] Likely ${yellow(`${domains}`)}`);
-
-
+		  	  					console.log(`[!] Suspicious ${danger(`${domains}`)}`);
 		  	  					return;
 		  	  				}
 
@@ -363,16 +160,12 @@
 		  	  			} else {
 
 		  	  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-
 		  	  					console.log(`[!] Likely ${yellow(`${domains}`)}`);
-
 		  	  					return;
 		  	  				}
 
 		  	  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-
 		  	  					console.log(`[!] Potential ${white(`${domains}`)}`);
-
 		  	  					return;
 
 		  	  				}
@@ -412,7 +205,7 @@
 		  					return;
 		  				}
 
-		  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
+		  				if ((subdomain.length >= 1 || domain.length >= 1) || (dashed >= 3 || points >= 3)) {
 
 		  					console.log(`[!] Potential ${white(`${domains}`)}`);
 
@@ -426,7 +219,10 @@
 
 		  });
 
-certificates.inc();
-}
+		certificates.inc();
+	}
 }
 
+ status.start({
+ 	pattern: '{spinner.cyan} {certificates} Certs {spinner.toggle}  Elapsed time {uptime}'
+ });
