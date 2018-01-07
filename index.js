@@ -20,7 +20,34 @@
 
  const certificates = status.addItem('certificates');
 
- const mapping = { "a": ["à","á","â","ã","ä","å","ā","ă","ą","ǎ","ȁ","ȃ","ȧ","ḁ","ẚ","ạ"], "b": ["ḃ","ḅ","ḇ","ƀ"],"c": ["ç","ć", "ĉ", "ċ","č"],"d": ["ḋ", "ḍ", "ḏ", "ḑ", "ḓ", "đ"],"e": ["è","é","ê","ë","ĕ","ė","ę","ě","ȅ","ȇ","ȩ","ḙ","ḛ","ẹ","ẽ"],"f": ["ḟ"],"g": ["ĝ","ğ","ġ","ģ","ǧ","ǵ","ḡ"],"h": ["ĥ","ȟ","ḣ","ḥ","ḧ","ḩ","ḫ","ẖ"],"i": ["ì", "í", "î", "ï", "ĩ", "ī", "ĭ", "į", "ǐ", "ȉ", "ȋ", "ḭ", "ị"],"j": ["ĵ", "ǰ"],"k": ["ķ","ǩ","ḱ","ḳ","ḵ"],"l": ["ĺ", "ļ", "ľ", "ŀ", "ḷ", "ḻ", "ḽ", "ι", "ł"], "m": ["ḿ","ṁ","ṃ", "ϻ"], "n": ["ñ", "ń", "ņ", "ň", "ŉ", "ǹ", "ṅ", "ṇ", "ṉ", "ṋ"], "o": ["ò","ó","ô","õ","ö","ō","ŏ","ő","ơ","ǒ","ǫ","ố","ȍ","ȏ","ȯ","ọ","ø","ộ"], "p": ["ṕ","ṗ","ϸ"], "r": ["ŕ","ŗ","ř","ȑ","ȓ","ṙ","ṛ","ṟ", "ґ"], "s": ["ŝ", "ş", "š", "ș", "ṡ", "ṣ"], "t": ["ţ", "ť", "ț", "ṫ", "ṭ", "ṯ", "ṱ", "ẗ"], "u": ["ù", "ú", "û", "ü", "ũ", "ū", "ŭ", "ů", "ű", "ų", "ư", "ǔ", "ȕ", "ȗ", "ṳ", "ṵ", "ṷ", "ụ"], "v": ["ṽ","ṿ"], "w": ["ŵ", "ẁ", "ẃ", "ẅ", "ẇ", "ẉ", "ẘ"], "x": ["ẋ", "ẍ"], "y": ["ý", "ÿ", "ŷ", "ȳ", "ẏ", "ẙ", "ỳ", "ỵ", "ỹ"], "z": ["ź", "ż", "ž", "ẑ", "ẓ", "ẕ"]}
+ const mapping =  {
+
+    "a": ["à", "á", "â", "ã", "ä", "å", "ā", "ă", "ą", "ǎ", "ȁ", "ȃ", "ȧ", "ḁ", "ẚ", "ạ"],
+    "b": ["ḃ", "ḅ", "ḇ", "ƀ"],
+    "c": ["ç", "ć", "ĉ", "ċ", "č"],
+    "d": ["ḋ", "ḍ", "ḏ", "ḑ", "ḓ", "đ"],
+    "e": ["è", "é", "ê", "ë", "ĕ", "ė", "ę", "ě", "ȅ", "ȇ", "ȩ", "ḙ", "ḛ", "ẹ", "ẽ"],
+    "f": ["ḟ"],
+    "g": ["ĝ", "ğ", "ġ", "ģ", "ǧ", "ǵ", "ḡ"],
+    "h": ["ĥ", "ȟ", "ḣ", "ḥ", "ḧ", "ḩ", "ḫ", "ẖ"],
+    "i": ["ì", "í", "î", "ï", "ĩ", "ī", "ĭ", "į", "ǐ", "ȉ", "ȋ", "ḭ", "ị"],
+    "j": ["ĵ", "ǰ"],
+    "k": ["ķ", "ǩ", "ḱ", "ḳ", "ḵ"],
+    "l": ["ĺ", "ļ", "ľ", "ŀ", "ḷ", "ḻ", "ḽ", "ι", "ł"],
+    "m": ["ḿ", "ṁ", "ṃ", "ϻ"],
+    "n": ["ñ", "ń", "ņ", "ň", "ŉ", "ǹ", "ṅ", "ṇ", "ṉ", "ṋ"],
+    "o": ["ò", "ó", "ô", "õ", "ö", "ō", "ŏ", "ő", "ơ", "ǒ", "ǫ", "ố", "ȍ", "ȏ", "ȯ", "ọ", "ø", "ộ"],
+    "p": ["ṕ", "ṗ", "ϸ"],
+    "r": ["ŕ", "ŗ", "ř", "ȑ", "ȓ", "ṙ", "ṛ", "ṟ", "ґ"],
+    "s": ["ŝ", "ş", "š", "ș", "ṡ", "ṣ"],
+    "t": ["ţ", "ť", "ț", "ṫ", "ṭ", "ṯ", "ṱ", "ẗ"],
+    "u": ["ù", "ú", "û", "ü", "ũ", "ū", "ŭ", "ů", "ű", "ų", "ư", "ǔ", "ȕ", "ȗ", "ṳ", "ṵ", "ṷ", "ụ"],
+    "v": ["ṽ", "ṿ"],
+    "w": ["ŵ", "ẁ", "ẃ", "ẅ", "ẇ", "ẉ", "ẘ"],
+    "x": ["ẋ", "ẍ"],
+    "y": ["ý", "ÿ", "ŷ", "ȳ", "ẏ", "ẙ", "ỳ", "ỵ", "ỹ"],
+    "z": ["ź", "ż", "ž", "ẑ", "ẓ", "ẕ"]
+}
 
  module.exports = {
 
@@ -31,9 +58,7 @@
  		this.tlds = tlds;
 
 
- 		var settings = {
- 			tlds: false
- 		};
+ 		let settings = { tlds: false };
 
  		if (!options) { options = {}; }
 
@@ -106,8 +131,8 @@
 
 	  	 if (lodash.startsWith(domains, 'xn--', 0)) {
 
-	  	 	let punyncode = punycode.toUnicode(domains); 
-	  	 	let punydecode = punycode.ucs2.decode(punyncode); 
+	  	 	let punyencode = punycode.toUnicode(domains); 
+	  	 	let punydecode = punycode.ucs2.decode(punyencode); 
 
 	  	 	lodash.forEach(punydecode, function(punycode) {
 
@@ -117,15 +142,15 @@
 				        var maps = mapping[keyword];
 
 				        for(var keywords in maps ) {
-         					punyncode = punyncode.replace(maps[keywords], keyword);
+         					punyencode = punyencode.replace(maps[keywords], keyword);
         				}
 			      	}
 	  	 		}
 	  	 	});
 
-	  	 	keywords = (punyncode.match(regex) || []).length;
+	  	 	var punykeywords = (punyencode.match(regex) || []).length;
 
-	  	 	if (keywords >= 1) {
+	  	 	if (punykeywords >= 1) {
 	  	 		console.log(`[!] Punycode ${danger(`${domains}`)}`);
 	  	 	}
 
@@ -137,38 +162,31 @@
 	  	 if (settings.tlds) {
 
 		  	  // Retorn apenas os tlds passados como parametro
-
 		  	  lodash.forEach(tlds, function(tld) {
 		  	  	if (lodash.includes(tld, tlddomain)) {
 
 		  	  		lodash.forEach(keywords, function(keyword) {
 
 		  	  			if (suspicious) {
-
 		  	  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
 		  	  					console.log(`[!] Suspicious ${danger(`${domains}`)}`);
 		  	  					return;
 
 		  	  				}
-
 		  	  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
 		  	  					console.log(`[!] Suspicious ${danger(`${domains}`)}`);
 		  	  					return;
 		  	  				}
 
-
 		  	  			} else {
-
 		  	  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
 		  	  					console.log(`[!] Likely ${yellow(`${domains}`)}`);
 		  	  					return;
 		  	  				}
-
-		  	  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-		  	  					console.log(`[!] Potential ${white(`${domains}`)}`);
-		  	  					return;
-
-		  	  				}
+		  	  				if ((subdomain.length >= 1 || domain.length >= 1) || (dashed >= 3 || points >= 2)) {
+			  					console.log(`[!] Potential ${white(`${domains}`)}`);
+			  					return;
+		  					}
 		  	  			}
 
 		  	  		});
@@ -178,39 +196,24 @@
 		  	} else {
 
 		  		lodash.forEach(keywords, function(keyword) {
-
 		  			if (suspicious) {
-
 		  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-
 		  					console.log(`[!] Suspicious ${danger(`${domains}`)}`);
-
 		  					return;
-
 		  				}
-
 		  				if (lodash.startsWith(domain, keyword, 0) && domain.length >= 1) {
-
 		  					console.log(`[!] Likely ${yellow(`${domains}`)}`);
-
 		  					return;
 		  				}
 
 		  			} else {
-
 		  				if (lodash.startsWith(subdomain, keyword, 0) && subdomain.length >= 1) {
-
 		  					console.log(`[!] Likely ${yellow(`${domains}`)}`);
-
 		  					return;
 		  				}
-
-		  				if ((subdomain.length >= 1 || domain.length >= 1) || (dashed >= 3 || points >= 3)) {
-
+		  				if ((subdomain.length >= 1 || domain.length >= 1) || (dashed >= 3 || points >= 2)) {
 		  					console.log(`[!] Potential ${white(`${domains}`)}`);
-
 		  					return;
-
 		  				}
 		  			}
 
@@ -223,6 +226,6 @@
 	}
 }
 
- status.start({
- 	pattern: '{spinner.cyan} {certificates} Certs {spinner.toggle}  Elapsed time {uptime}'
- });
+status.start({
+	pattern: '{spinner.cyan} {certificates} Certs'
+});
