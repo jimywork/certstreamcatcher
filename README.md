@@ -2,8 +2,9 @@
 Catching phishing by observing [certificate transparency logs](https://www.certificate-transparency.org/known-logs). This tool is based on regex with effective standards for detecting phishing sites in real time using [certstream](https://github.com/CaliDog/certstream-js) and can also detect [punycode (IDNA)](https://en.wikipedia.org/wiki/Punycode) attacks such as https://www.ṁyetḣerwallet.com.
 
 
+### Phishing 
 
-[![Demo](https://github.com/6IX7ine/certstreamcatcher/blob/master/demo.gif?raw=true)](https://twitter.com/6IX7ine)
+[![Phishing](https://pbs.twimg.com/media/DY-k7YFWsAA_f8l.jpg)](https://twitter.com/6IX7ine/status/943229448614182912)
 
 
 ### Installation
@@ -49,10 +50,7 @@ To execute the program save the above code and execute with the command:
 $ node certstreamcatcher.js
 ```
 
-### Phishing 
 
-[![Phishing](https://pbs.twimg.com/media/DY-k7YFWsAA_f8l.jpg)](https://twitter.com/6IX7ine/status/943229448614182912)
-<hr>
 
 
 
